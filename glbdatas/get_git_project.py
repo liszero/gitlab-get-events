@@ -39,12 +39,3 @@ def npj(gl,i,sinces,untils,date_str,npjlist):
                 m.description, sizes, mstr, m.created_at,
                 m.last_activity_at, date_str, len(comm)]
     npjlist.append(tmplists)
-
-
-
-if __name__ == "__main__":
-    npidlist = [348]
-    a = "2020-02-01"
-    b = "2020-02-29"
-    y = git_project().get_pjinfo(npidlist,a,b)
-    print(y[0])
