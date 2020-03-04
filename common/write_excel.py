@@ -16,7 +16,9 @@ def wexcel(exname,sheetname,tabname,all_data):
         worksheet.set_column(10, 11, 30)
         worksheet.set_column(11, 12, 30)
         worksheet.set_column(12, 13, 30)
-        worksheet.autofilter('A1:M13')
+        worksheet.set_column(13, 14, 30)
+        worksheet.set_column(14, 15, 30)
+        worksheet.autofilter('A1:O15')
         ItemStyle = workbook.add_format({
             'align': 'center',
             'top': 1,

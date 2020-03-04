@@ -17,7 +17,7 @@ def main():
             after = args.after
             before = args.before
             exname = os.path.join(curpath,(after+"_"+before+".xlsx"))
-            project_list = git_project().get_project()
+            project_list = git_project().get_project(args.after, args.before)
             events_list = []
             with ThreadPoolExecutor(max_workers=100) as t:
                 for i in project_list:
@@ -40,10 +40,25 @@ def main():
             sheet2 = "gitgroups"
             tabname2 = [ "项目组Id", "项目组名称","项目组路径","项目组描述","项目组成员",
                          "项目Id", "项目名称", "项目路径", "项目描述","项目大小",
-                         "项目内成员", "项目创建时间", "项目最后更新时间"]
+                         "项目内成员", "项目创建时间", "项目最后更新时间","项目提交时间区间","项目提交次数"]
             groups_list = git_groups().get_groups()
-            wexcel(groupsname,sheet2,tabname2,groups_list)
+            gpid = []
+            npid = []
+            for i in groups_list:
+                gpid.append(i[5])
+            for j in project_list:
+                if j[0] not in gpid:
+                    npid.append(j[0])
+            nogidlists = git_project().get_pjinfo(npid, args.after, args.before)
 
+            for i in groups_list:
+                for j in project_list:
+                    if i[5] == j[0]:
+                        i.append(j[-2])
+                        i.append(j[-1])
+
+            groups_list.extend(nogidlists)
+            wexcel(groupsname,sheet2,tabname2,groups_list)
         else:
             parser.print_help()
 
